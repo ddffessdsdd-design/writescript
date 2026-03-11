@@ -2,7 +2,7 @@ const express = require(“express”);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 app.get(”/script”, async (req, res) => {
 const prompt = req.query.prompt;
@@ -12,29 +12,27 @@ return res.status(400).send(“Missing prompt parameter.”);
 }
 
 try {
-const response = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-{
+const response = await fetch(“https://openrouter.ai/api/v1/chat/completions”, {
 method: “POST”,
-headers: { “Content-Type”: “application/json” },
+headers: {
+“Content-Type”: “application/json”,
+“Authorization”: `Bearer ${OPENROUTER_API_KEY}`
+},
 body: JSON.stringify({
-contents: [
+model: “mistralai/mistral-7b-instruct:free”,
+messages: [
 {
-parts: [
-{
-text: `You are a Roblox Studio Lua scripting expert. Write a clean, working Roblox Studio Lua script for the following request: "${prompt}". Only reply with the code inside a code block. No explanations.`,
-},
-],
-},
-],
-}),
+role: “user”,
+content: `You are a Roblox Studio Lua scripting expert. Write a clean, working Roblox Studio Lua script for the following request: "${prompt}". Only reply with the code inside a code block. No explanations.`
 }
-);
+]
+}),
+});
 
 ```
 const data = await response.json();
 const scriptText =
-  data.candidates?.[0]?.content?.parts?.[0]?.text ||
+  data.choices?.[0]?.message?.content ||
   "Error: No response from AI.";
 res.send(scriptText);
 ```
