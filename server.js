@@ -14,7 +14,7 @@ app.get("/script", async (req, res) => {
         "Authorization": "Bearer " + OPENROUTER_API_KEY
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-r1:free",
+        model: "google/gemma-3-4b-it:free",
         messages: [{ role: "user", content: "Write a Roblox Studio Lua script for: " + prompt + ". Only reply with code in a code block." }]
       })
     });
