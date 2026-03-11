@@ -1,0 +1,12 @@
+{
+  "name": "writescript-middleware",
+  "version": "1.0.0",
+  "description": "Middleware server for WriteScript BDF bot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
