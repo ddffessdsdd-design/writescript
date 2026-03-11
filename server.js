@@ -14,12 +14,14 @@ app.get("/script", async (req, res) => {
         "Authorization": "Bearer " + OPENROUTER_API_KEY
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct:free",
+        model: "deepseek/deepseek-r1:free",
         messages: [{ role: "user", content: "Write a Roblox Studio Lua script for: " + prompt + ". Only reply with code in a code block." }]
       })
     });
     const data = await response.json();
-    res.send(data.choices[0].message.content);
+    console.log(JSON.stringify(data));
+    const text = data?.choices?.[0]?.message?.content || JSON.stringify(data);
+    res.send(text);
   } catch (err) {
     res.status(500).send("Error: " + err.message);
   }
